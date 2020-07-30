@@ -160,7 +160,7 @@ function friends_result(datas) {
             new_requests += '' +
                 '<div class="friend">' +
                 '<div class="profile"><img src="img/'+data.uid+'.png"></div>' +
-                '<div class="name">' + data.uid + '</div>' +
+                '<div class="name">' + data.name + '</div>' +
                 '<div class="add" onclick="accept_request(' +
                 uid + ',this)"><img src="icon/add-friend.svg"></div>' +
                 '</div>';

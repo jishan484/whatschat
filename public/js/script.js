@@ -216,7 +216,6 @@ function Page()
   this.friend = $(".f-number")
   this.sync = function()
   {
-      console.log("gettttt")
       $.get("/friends_data","",(res)=>{
           $(".f-number").html(res.data);
       })

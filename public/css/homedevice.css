@@ -1,0 +1,37 @@
+@media only screen and (max-width: 500px) {
+    .check
+    {
+        display: none;
+    }
+    
+    header
+    {
+        width:100%;
+    }
+    .main
+    {
+        width:100%;
+        border: none;
+    }
+    .view_box
+    {
+        position: relative;
+        top: 0;left: 0;
+        display: none;
+        width: 100%;
+        max-width: 500;
+        height:calc(100% - 67px);
+    }
+    .view_box .message .separate .send
+    {
+        right : 6%;
+    }
+    .view_box .message .separate .recive
+    {
+        left:6%;
+    }
+    .hide
+    {
+        display: none;
+    }
+}

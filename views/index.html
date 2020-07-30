@@ -1,0 +1,84 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>video chat app</title>
+    <link rel="icon" href="logo.svg">
+    <meta name='viewport' content='width=device-width, initial-scale=1 , user-scalable=no'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/device.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/crop.css'>
+    <script src="js/jquery.js"></script>
+    <script src="js/crop.js"></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/image.js" defer></script>
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="content content-texts">
+            <!-- for button and welcome notes -->
+            <div class="vcenter welcome">
+                <div class="text-big">WELCOME TO EXPOSYS DATA LABS VIDEO CHAT</div>
+                <div class="text-medium"> stay in touch and make your friend closer</div>
+                <div class=".buttons_wrap">
+                    <button class="button_signin" onclick="show_singin()">Login</button>
+                    <button class="button_signin" onclick="show_singup()">Register</button>
+                </div>
+
+            </div>
+            <!-- for login form -->
+            <div class="vcenter signin_form">
+                <form onsubmit="return false;">
+                    <input onkeyup="trim_it(this)" type="username" placeholder="Username" autocomplete="on" required id="luser">
+                    <input type="password" placeholder="Password" autocomplete="on" required id="lpass">
+                    <div id="lstatus"></div>
+                    <input type="submit" class="signin_button" value="Sign in" onclick="login()">
+                </form>
+                <button class="signin_back_button" onclick="hide_signin()">Back</button>
+            </div>
+                
+            <!-- for signup form -->
+            <div class="vcenter signup_form">
+                <form onsubmit="return false;">
+                    <div class="tag">
+                        Enter email and password
+                        <input id="remail" type="email" placeholder="Email" required>
+                        <input id="rpass" type="password" placeholder="Password" minlength="8" required autocomplete="on">
+                    </div>
+                    <div class="tag">
+                        Enter name and create your username
+                        <input id="rname" type="name" placeholder="Name" required minlength="3">
+                        <input onkeyup="trim_it(this)" id="ruser" type="Username" placeholder="username" required autocomplete="on" minlength="3">
+                        <div id="rstatus1"></div>  
+                  </div>
+                    <div class="tag">
+                        Upload profile picture(optional)
+                        <input onchange="show_editor()" id="rfile" type="file" placeholder="Profile picture" accept="image/*">
+                        <div id="rstatus2"></div>
+                    </div>
+                    <input type="submit" class="signup_button" value="Next" onclick="signup()">
+                </form>
+                <button class="signup_extra_button cancle" onclick="hide_signup()">Cancel</button>
+                <button class="signup_extra_button previous" onclick="signup_previous()">Previous</button>
+            </div>
+        </div>
+        <div class="content img-content">
+            <img class="background-img" src="bg.png">
+        </div>
+    </div>
+    <div class="bottom-text">
+        This site use cookies please read our
+        <a href="terms">Terms & Condition</a> and <a href="privacy">Privacy policy</a>
+    </div>
+    <div class="image_editor">
+        <div class="editor">
+            <img id="edit_it" alt="editor">
+        </div>
+        <button onclick="save_image()">Save</button>
+        <button onclick="cancel_image()">Cancel</button>
+    </div>
+</body>
+
+</html>

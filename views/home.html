@@ -1,0 +1,79 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>video chat app home</title>
+    <link rel="icon" href="logo.svg">
+    <meta name='viewport' content='width=device-width, initial-scale=1 , user-scalable=no'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/home.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/homedevice.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/crop.css'>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/peer.js" id="peer"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/crop.js"></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/message.js" defer></script>
+    <script src="js/video.js" defer></script>
+    <script src="js/image.js" defer></script>
+</head>
+<body>
+    <script>
+        if (location.hostname != "localhost" && location.protocol === "http:") {
+            location.href = location.href.replace("http://", "https://");
+            }
+        // if this site is not localhost then redirect to https for html5 camera api
+    </script>
+    <header>
+        <div class="profile" onclick="profile.load_profile()">
+            <img id="my_profile_img" class="profile_image" src="my_profile_img/profile.png">
+        </div>
+        <div class="notification_logo" onclick="location.href='/logout';">
+            <img class="n-image" src="icon/logout.svg">
+        </div>
+      <div class="friend_logo" onclick="my_friends()">
+            <img class="f-image" src="icon/add-friend.svg">
+            <span class="f-number">0</span>
+        </div>
+    </header>
+
+    <!-- main div -->
+    <div class="main">
+        <div class="search">
+            <div class="search_box">
+                <img class="search_logo" src="icon/search.svg">
+                <input autocomplete="" onkeyup="search()" type="search" id="search_input" class="search_input" placeholder="Search by uid or name">
+            </div>
+        </div>
+        <!-- search result apear here..hidden:overlap -->
+        <div class="search_result">
+            serach result
+        </div>
+        <!-- friends list chat and all -->
+        <div class="chat">
+            <!-- js will render data in here -->
+        </div>
+    </div>
+    <!--   for incomming call   -->
+    <div class="middle">
+            <!-- some errors and calling promot will shown here -->
+    </div>
+    <!-- chat box mobile:hidden pc:visible in right side -->
+    <div class="view_box">
+        <div class="view_box_bg">
+            
+        </div>
+    </div>
+    <!-- this is for cheacking device -->
+    <div class="check"></div>
+    <div class="image_editor">
+        <div class="editor">
+            <img id="edit_it" alt="editor">
+        </div>
+        <button onclick="save_image(true)">upload</button>
+        <button onclick="cancel_image()">cancel</button>
+    </div>
+</body>
+
+</html>

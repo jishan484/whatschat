@@ -1,0 +1,24 @@
+@media only screen and (max-width: 600px) {
+    .main-content
+    {
+        display:block;
+        height: 100%;
+        overflow: hidden;
+    }
+    .img-content
+    {
+        top: 80px;
+    }
+    .background-img
+    {
+        width:100%;
+        max-width: 340px;
+        transform: none;
+        
+    }
+    .vcenter
+    {
+        top: 40px;
+        transform: none;
+    }
+}

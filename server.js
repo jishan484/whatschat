@@ -451,4 +451,4 @@ function clear_old(mid,limit)
 // }
 // token['jishan']=1 
 // console.log() 
-// db.all("SELECT name,uid FROM users",(err,res)=>{console.log(res)})   
+// db.all("SELECT uid,password FROM users",(err,res)=>{console.log(res)})   

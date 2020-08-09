@@ -440,15 +440,4 @@ function clear_old(mid,limit)
   var select = "DELETE FROM message WHERE mid='"+mid+"' AND id NOT IN "+
       "(SELECT id FROM message WHERE mid='"+mid+"' ORDER BY id DESC LIMIT "+limit+")"; 
   db.run(select,(err)=>{if(err)console.log(err)})
-}
-// test(143);
-// function test(limit)
-// {
-    // var select = "SELECT users.name,friends.mid FROM friends,users WHERE (friends.uid='jishan' AND"+
-    //   " friends.status=1 AND friends.fid=users.uid ) OR"+
-    //   " (friends.fid='jishan' AND friends.status=1 AND friends.uid=users.uid)";
-    // db.all(select,(err,res)=>{console.log(res)})
-// }
-// token['jishan']=1 
-// console.log() 
-// db.all("SELECT uid,password FROM users",(err,res)=>{console.log(res)})   
+} 

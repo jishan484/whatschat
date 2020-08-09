@@ -425,7 +425,7 @@ function Start_chat()
         var mid='';
         var head = ''+
         '<div class="header">'+
-            '<img src="img/' + coated_uid + '.png">' +
+            '<img src="img/' +uid + '.png">' +
             '<div class="data">'+
                 '<div class="name">'+name+'</div>'+
                 '<div class="status">offline</div>'+
@@ -551,13 +551,3 @@ $.ajaxSetup({
     timeout: 12000
 });
 }, 20000)
-// register service worker
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', function () {
-//         navigator.serviceWorker.register('js/sw.js').then(function (registration) {
-//             console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//         }, function (err) {
-//             console.log('ServiceWorker registration failed: ', err);
-//         });
-//     });
-// }

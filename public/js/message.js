@@ -59,7 +59,7 @@ function Message()
             })
         });
     }
-    // this will set status data ti a html div
+    // this will set status data to a html div
     this.set_user_status = function (to,uid) {
         socket.emit("status", (uid));
         socket.on("status", (data) => {

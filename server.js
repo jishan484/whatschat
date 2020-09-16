@@ -16,6 +16,11 @@ const db = new sqlite3.Database(dbFile);
 init_database();
 
 //handle get and post requests
+function abc(p,p2)
+{
+  
+}
+(p,p2) => { }
 app.use(express.static("public"));
 app.get("/home", (req, res) => { if (check("/home", res)) res.sendFile(`${__dirname}/views/home.html`); })
 app.get("/", (req, res) => { if (check("/", res)) res.sendFile(`${__dirname}/views/index.html`); });

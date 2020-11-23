@@ -2,6 +2,7 @@ var config = {
     video: false,
     audio: false
 }
+// global
 var calling_to = "";
 var is_line_busy = false;
 var gpeer=null,endcall=null;  //gpeer is the global peer variable

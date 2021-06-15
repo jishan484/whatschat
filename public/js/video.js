@@ -251,13 +251,15 @@ function init_saved_data_audio()
     }
 }
 
-function screen_share(){
+async function screen_share(){
+  
   var displayMediaOptions = {
   video: {
     cursor: "always"
   },
-    audio: false
+    audio: true
   };
-  navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
-  .then(function (stream) {
+  
+    var stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    gpeer.addStream(stream);
 }

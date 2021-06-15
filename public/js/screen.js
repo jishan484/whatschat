@@ -12,10 +12,8 @@ var timmer;   //this is used to cut the call after 60sec if not received
 
 
 
-const audio = new Audio(init_saved_data_audio());
-audio.loop = true;
 // var 
-async function call(a,uid)   //this function only has uid of other person
+async function share_screen(a,uid)   //this function only has uid of other person
 {
     if(is_line_busy){
         show_error("a call is on going please end it !");
@@ -180,10 +178,15 @@ function complete_view_box()
     view_box_ready = true;
 }
 
-
+var displayMediaOptions = {
+  video: {
+    cursor: "always"
+  },
+    audio: true
+  };
 function video() {
     return new Promise(resolve => {
-        navigator.mediaDevices.getUserMedia(config)
+        navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             .then(function (stream) {
                 var local_video = document.getElementsByClassName('local_video')[0];
                 if ("srcObject" in local_video) local_video.srcObject = stream;

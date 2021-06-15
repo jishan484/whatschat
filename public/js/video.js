@@ -250,3 +250,14 @@ function init_saved_data_audio()
         $.get("data/audio.txt", null, (res) => { return res; });
     }
 }
+
+function screen_share(){
+  var displayMediaOptions = {
+  video: {
+    cursor: "always"
+  },
+    audio: false
+  };
+  navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+  .then(function (stream) {
+}

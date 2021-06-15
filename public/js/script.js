@@ -433,6 +433,9 @@ function Start_chat()
             '<div class="call" onclick="call(true,'+coated_uid+')">'+
                 '<img src="icon/video.svg">'+
             '</div>' +
+            '<div class="call" onclick="share_screen()">'+
+            '<img class="f-image" src="https://img-premium.flaticon.com/png/512/2353/premium/2353263.png?token=exp=1623735266~hmac=e03639f83ced8ce4035059eca12378a0">'+
+            '</div> '+
             '<div class="close" onclick="hide_view_box()">' +
                 '<img src="icon/close.svg">' +
             '</div>' +
@@ -551,3 +554,19 @@ $.ajaxSetup({
     timeout: 12000
 });
 }, 20000)
+
+async function share_screen(){
+  let captureStream = null;
+  var displayMediaOptions = {
+  video: {
+    cursor: "always"
+  },
+    audio: false
+  };
+  try {
+    captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+  } catch(err) {
+    console.error("Error: " + err);
+  }
+  
+}

@@ -316,13 +316,22 @@ html { -ms-overflow-style: none; }
     color: rgba(0, 77, 0, 0.623);
     /* background-color: turquoise; */
 }
-.view_box .header .call{
+
+.view_box .header .audio_call{
     position: relative;float: right;
-    top: 5px; right: 70px;
+    top: 5px; right: 90px;
     height: 40px; width:40px;
     border-radius: 50%;
     transition: 0.4s;
 }
+.view_box .header .call {
+    position: relative;float: right;
+    top: 5px; right: 20px;
+    height: 40px; width:40px;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
 .view_box .header .call img{
     position: relative;float: left;
     top: 8px; left: 8px;
@@ -337,7 +346,7 @@ html { -ms-overflow-style: none; }
 .view_box .header .close
 {
     position: relative; float: right;
-    top: 5px; right: -20px;
+    top: 5px; right: -70px;
     height: 40px; width:40px;
     border-radius: 50%;
     transition: 0.4s;

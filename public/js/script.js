@@ -430,12 +430,15 @@ function Start_chat()
                 '<div class="name">'+name+'</div>'+
                 '<div class="status">offline</div>'+
             '</div>'+
+            '<div class="audio_call" onclick="share_screen(true,'+coated_uid+')">'+
+            '<img class="f-image" src="icon/call.png">'+
+            '</div> '+
             '<div class="call" onclick="call(true,'+coated_uid+')">'+
                 '<img src="icon/video.svg">'+
             '</div>' +
-            '<div class="call" onclick="share_screen(true,'+coated_uid+')">'+
-            '<img class="f-image" src="https://img-premium.flaticon.com/png/512/2353/premium/2353263.png?token=exp=1623735266~hmac=e03639f83ced8ce4035059eca12378a0">'+
-            '</div> '+
+            // '<div class="audio_call" onclick="share_screen(true,'+coated_uid+')">'+
+            // '<img class="f-image" src="icon/call.png">'+
+            // '</div> '+
             '<div class="close" onclick="hide_view_box()">' +
                 '<img src="icon/close.svg">' +
             '</div>' +

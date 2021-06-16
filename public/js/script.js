@@ -293,7 +293,7 @@ function Page()
                 '</div>'+
             '</div>'+
             '<div class="video_call" onclick="call(true,' + uid +')">'+
-                '<img src="icon/video.svg">'+
+                '<img src="icon/call.png">'+
             '</div>'+
         '</div>';
     }

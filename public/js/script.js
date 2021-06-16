@@ -431,7 +431,7 @@ function Start_chat()
                 '<div class="status">offline</div>'+
             '</div>'+
             '<div class="audio_call" onclick="share_screen(true,'+coated_uid+')">'+
-            '<img class="f-image" src="icon/call.png">'+
+            '<img src="icon/call.png">'+
             '</div> '+
             '<div class="call" onclick="call(true,'+coated_uid+')">'+
                 '<img src="icon/video.svg">'+

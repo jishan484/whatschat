@@ -167,6 +167,7 @@ function init_view_box()
     `<div class="video_chat" style="width:100%">
         <video autoplay="" playsinline="" class="remote_video"></video>
         <video autoplay="" playsinline="" muted="" id="video" class="local_video"></video>
+        
     <button id="call_end" onclick="finish();"><img src="icon/cut.svg"></button>
     </div>`;
     $(".view_box").html(data);

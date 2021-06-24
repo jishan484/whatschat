@@ -167,8 +167,28 @@ function init_view_box()
     `<div class="video_chat" style="width:100%">
         <video autoplay="" playsinline="" class="remote_video"></video>
         <video autoplay="" playsinline="" muted="" id="video" class="local_video"></video>
-        
-    <button id="call_end" onclick="finish();"><img src="icon/cut.svg"></button>
+    
+    <div class="buttons">
+      
+      <button id="call_end" onclick="finish();">
+          <img src="icon/voice.svg">
+      </button>
+      
+      <button id="call_end" onclick="finish();">
+          <img src="icon/video.svg">
+      </button>
+      
+      <button id="call_end" onclick="finish();">
+          <img src="icon/screenshare.svg">
+      </button>
+      
+      <button id="call_end" onclick="finish();">
+          <img src="icon/cut.svg">
+      </button>
+      
+      
+    </div>
+    
     </div>`;
     $(".view_box").html(data);
     open_view_box();
@@ -264,3 +284,5 @@ async function screen_share(){
     var stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
     gpeer.addStream(stream);
 }
+
+init_view_box()

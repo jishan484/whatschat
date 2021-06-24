@@ -285,4 +285,6 @@ async function screen_share(){
     gpeer.addStream(stream);
 }
 
-init_view_box()
+function switch_stream(type){
+    
+}

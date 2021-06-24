@@ -23,6 +23,9 @@ socket.on("receive", (data) => {
         }, 1000);
 })
 
+// socket.on('disconnect', function(){
+//   socket = io();
+// })
 
 function send_message(data) {
     var now = new Date().getTime();

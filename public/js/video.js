@@ -13,6 +13,7 @@ var globalConfig = {
 var calling_to = "";
 var is_line_busy = false;
 var gpeer = null, endcall = null;  //gpeer is the global peer variable
+var gstream = null;
 var view_box_data = "";
 var clone_gpeer = null;
 var timmer;   //this is used to cut the call after 60sec if not received
@@ -113,11 +114,10 @@ function cancel(uid) {
 }
 
 async function peer(type) {
-    var r = await set_config();
-    var streams = await video();
-    var peer = new SimplePeer({ initiator: type, trickle: false, stream: streams });
+    var peer = new SimplePeer({ initiator: type, trickle: false });
     gpeer = peer;
     peer.on("connect", (data) => {
+        setConfig("default")
         console.log("connected")
     })
     peer.on("signal", (data) => send_to(JSON.stringify(data)));
@@ -136,7 +136,7 @@ async function peer(type) {
     peer.on('error', err => { console.log('error', err); finish(); })
     endcall = function () {
         peer.destroy();
-        streams.getTracks().forEach(device => {
+        gstream.getTracks().forEach(device => {
             device.stop();
         });
         complete_view_box();
@@ -203,51 +203,6 @@ function complete_view_box() {
 }
 
 
-function video() {
-    return new Promise(resolve => {
-        navigator.mediaDevices.getUserMedia(config)
-            .then(function (stream) {
-                var local_video = document.getElementsByClassName('local_video')[0];
-                if ("srcObject" in local_video) local_video.srcObject = stream;
-                else local_video.src = window.URL.createObjectURL(stream);
-                local_video.onloadedmetadata = function (e) {
-                    local_video.play();
-                };
-                resolve(stream);
-            })
-            .catch(function (err) { console.log(err.name + ": " + err.message); });
-    });
-}
-
-
-// checking device has video audio inputs or not
-function set_config() {
-    return new Promise(resolve => {
-        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-            navigator.mediaDevices.enumerateDevices().then((data) => {
-                data.forEach(device => {
-                    if (device.kind == 'audioinput') config.audio = { sampleSize: 8, echoCancellation: true };
-                    if (device.kind == 'videoinput') config.video = true;
-                });
-                console.log(config);
-                resolve(config);
-            }).catch((err) => { console.log("try-1 :", err) });
-        }
-        else {
-            if (!navigator.enumerateDevices && window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
-                navigator.enumerateDevices = window.MediaStreamTrack.getSources.bind(window.MediaStreamTrack);
-                navigator.enumerateDevices().then((data) => {
-                    data.forEach(device => {
-                        if (device.kind == 'audioinput') config.audio = true;
-                        if (device.kind == 'videoinput') config.video = true;
-                    });
-                    console.log(config);
-                    resolve(config);
-                }).catch((err) => { console.log("try-2 :", err) });
-            }
-        }
-    });
-}
 
 
 function show_error(data) {
@@ -285,13 +240,15 @@ async function screen_share() {
 }
 
 function getStream(type) {
-    if (type == "screen") {
+    if (type == "screen" && call_screen.className != "off") {
         getScreen().then((stream) => {
+            gstream = stream;
             gpeer.addStream(stream);
         })
     }
     else {
         getVideo().then((stream) => {
+            gstream = stream;
             gpeer.addStream(stream);
         })
     }

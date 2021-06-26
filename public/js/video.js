@@ -174,15 +174,15 @@ function init_view_box()
           <img src="icon/voice.svg">
       </button>
       
-      <button id="call_end" onclick="setConfig('video');">
+      <button id="call_end off" onclick="setConfig('video');">
           <img src="icon/video.svg">
       </button>
       
-      <button id="call_end" onclick="setConfig('screen');">
+      <button id="call_end off" onclick="setConfig('screen');">
           <img src="icon/screenshare.svg">
       </button>
       
-      <button id="call_end" onclick="finish();">
+      <button id="call_end off" onclick="finish();">
           <img src="icon/cut.svg">
       </button>
       
@@ -287,4 +287,32 @@ async function screen_share(){
 
 function switch_stream(type){
     
+}
+var globalConfig = {
+    audio:true,
+    video: false
+};
+
+function setConfig(type) {
+    if(type == "audio"){
+        globalConfig.audio = !globalConfig.audio;
+    }else if(type == "video"){
+        if (globalConfig.video == false || globalConfig.video == true){
+            globalConfig.video = !globalConfig.video;
+        }
+        else{
+            globalConfig.video = true;
+        }
+    }
+    else{
+        if(globalConfig.video == false || globalConfig.video == true){
+            globalConfig.video = {
+                cursor: "always"
+            };
+        }
+        else{
+            globalConfig.video = false;
+        }
+    }
+    console.log(globalConfig);
 }

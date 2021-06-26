@@ -903,3 +903,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     box-sizing: 1px;
     border-radius: 12px;
 }
+
+.video_chat .off{
+  background:red;
+}

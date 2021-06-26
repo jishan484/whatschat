@@ -669,13 +669,16 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   width:40px;
   height:30px;
   margin:5px 8px;
+  background: #1ead1e;
 }
 .video_chat button img
 {
     max-width: 100%;
     width:100%;
 }
-
+.video_chat #call_end{
+  background:white;
+}
 .middle
 {
     position: absolute;

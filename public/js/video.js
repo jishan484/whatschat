@@ -240,25 +240,40 @@ async function screen_share() {
 }
 
 function getStream(type) {
+    if(globalConfig.audio==false && globalConfig.video==false){
+      if(gstream != null){
+              gstream.getTracks().forEach(device => {
+                device.stop();
+              });
+      }
+      return;
+    }
     if (type == "screen" && call_screen.className != "off") {
         getScreen().then((stream) => {
-            gstream = stream;
+            
             if(gpeer.streams.length > 0)
               gpeer.removeStream()
-            gstream.getTracks().forEach(device => {
-              device.stop();
-            });
+            if(gstream != null){
+              gstream.getTracks().forEach(device => {
+                device.stop();
+              });
+            }
+            
+            gstream = stream;
             gpeer.addStream(stream);
         })
     }
     else {
         getVideo().then((stream) => {
-            gstream = stream;
             if(gpeer.streams.length > 0)
             gpeer.removeStream()
-            gstream.getTracks().forEach(device => {
-              device.stop();
-            });
+            if(gstream != null){
+              gstream.getTracks().forEach(device => {
+                device.stop();
+              });
+            }
+            
+            gstream = stream;
             gpeer.addStream(stream);
         })
     }

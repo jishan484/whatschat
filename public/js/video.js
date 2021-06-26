@@ -170,19 +170,19 @@ function init_view_box()
     
     <div class="buttons">
       
-      <button id="call_end" onclick="setConfig('audio');">
+      <button id="call_audio" onclick="setConfig('audio');">
           <img src="icon/voice.svg">
       </button>
       
-      <button id="call_end off" onclick="setConfig('video');">
+      <button id="call_video" class="off" onclick="setConfig('video');">
           <img src="icon/video.svg">
       </button>
       
-      <button id="call_end off" onclick="setConfig('screen');">
+      <button id="call_screen" class="off" onclick="setConfig('screen');">
           <img src="icon/screenshare.svg">
       </button>
       
-      <button id="call_end off" onclick="finish();">
+      <button id="call_end" onclick="finish();">
           <img src="icon/cut.svg">
       </button>
       
@@ -314,5 +314,20 @@ function setConfig(type) {
             globalConfig.video = false;
         }
     }
+  handleButtons(type);
     console.log(globalConfig);
+}
+
+function handleButtons(type){
+    if(type == "audio"){
+        (call_audio.className == "off") ? call_audio.className="" : call_audio.className="off"
+    }
+    else if (type == "video") {
+        (call_video.className == "off") ? call_video.className = "" : call_video.className = "off"
+        call_screen.className = "off"
+    }
+    else{
+        (call_screen.className == "off") ? call_screen.className = "" : call_screen.className = "off"
+        call_video.className = "off"
+    }
 }

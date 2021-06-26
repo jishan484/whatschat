@@ -114,14 +114,14 @@ function cancel(uid) {
 }
 
 async function peer(type) {
-    var peer = new SimplePeer({ initiator: type, trickle: false });
-    gpeer = peer;
-    peer.on("connect", (data) => {
+    var peerData = new SimplePeer({ initiator: type, trickle: false });
+    gpeer = peerData;
+    peerData.on("connect", (data) => {
         setConfig("default")
         console.log("connected")
     })
-    peer.on("signal", (data) => send_to(JSON.stringify(data)));
-    peer.on('stream', streams => {
+    peerData.on("signal", (data) => send_to(JSON.stringify(data)));
+    peerData.on('stream', streams => {
         console.log("getting new streams");
         var video = document.querySelector('.remote_video');
         if ('srcObject' in video) { video.srcObject = streams }
@@ -130,12 +130,12 @@ async function peer(type) {
         video.muted = false;
         if (video.paused) video.controls = true;
     });
-    peer.on('close', () => {
+    peerData.on('close', () => {
         finish();
     })
-    peer.on('error', err => { console.log('error', err); finish(); })
+    peerData.on('error', err => { console.log('error', err); finish(); })
     endcall = function () {
-        peer.destroy();
+        peerData.destroy();
         gstream.getTracks().forEach(device => {
             device.stop();
         });
@@ -143,7 +143,7 @@ async function peer(type) {
         hide_view_box(false);
         endcall = null;
     }
-    clone_gpeer = peer;
+    clone_gpeer = peerData;
 }
 
 
@@ -243,12 +243,22 @@ function getStream(type) {
     if (type == "screen" && call_screen.className != "off") {
         getScreen().then((stream) => {
             gstream = stream;
+            if(gpeer.streams.length > 0)
+              gpeer.removeStream()
+            gstream.getTracks().forEach(device => {
+              device.stop();
+            });
             gpeer.addStream(stream);
         })
     }
     else {
         getVideo().then((stream) => {
             gstream = stream;
+            if(gpeer.streams.length > 0)
+            gpeer.removeStream()
+            gstream.getTracks().forEach(device => {
+              device.stop();
+            });
             gpeer.addStream(stream);
         })
     }

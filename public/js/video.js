@@ -184,59 +184,6 @@ function handleButtons(type){
 
 function setConfig(type) {
     if (type == "default") {
-        function init_calling_box(uid) {
-            data = `<div class="caller_image"><img src="img/` + uid + `.png"></div>
-                <div class="name">`+ uid + `</div>
-                <div class="others">
-                    <button onclick="accept('`+ uid + `')">accept</button>
-                    <button onclick="cancel('`+ uid + `')">cancel</button>
-            </div>`;
-            $(".middle").html(data).show(400);
-        }
-        function hide_calling_box() {
-            $(".middle").html("").hide(400);
-        }
-        function init_view_box() {
-            view_box_ready = false;
-            view_box_data = $(".view_box").html();
-            var data =
-                `<div class="video_chat" style="width:100%">
-        <video autoplay="" playsinline="" class="remote_video"></video>
-        <video autoplay="" playsinline="" muted="" id="video" class="local_video"></video>
-    
-    <div class="buttons">
-      
-      <button id="call_audio" onclick="setConfig('audio');">
-          <img src="icon/voice.svg">
-      </button>
-      
-      <button id="call_video" class="off" onclick="setConfig('video');">
-          <img src="icon/video.svg">
-      </button>
-      
-      <button id="call_screen" class="off" onclick="setConfig('screen');">
-          <img src="icon/screenshare.svg">
-      </button>
-      
-      <button id="call_end" onclick="finish();">
-          <img src="icon/cut.svg">
-      </button>
-      
-      
-    </div>
-    
-    </div>`;
-            $(".view_box").html(data);
-            open_view_box();
-        }
-        function complete_view_box() {
-            if (view_box_data != '')
-                $(".view_box").html(view_box_data);
-            view_box_data = '';
-            view_box_ready = true;
-        }
-
-
         globalConfig.audio = true;
     }
     else if(type == "audio"){

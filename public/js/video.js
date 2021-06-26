@@ -170,15 +170,15 @@ function init_view_box()
     
     <div class="buttons">
       
-      <button id="call_end" onclick="finish();">
+      <button id="call_end" onclick="setConfig('audio');">
           <img src="icon/voice.svg">
       </button>
       
-      <button id="call_end" onclick="finish();">
+      <button id="call_end" onclick="setConfig('video');">
           <img src="icon/video.svg">
       </button>
       
-      <button id="call_end" onclick="finish();">
+      <button id="call_end" onclick="setConfig('screen');">
           <img src="icon/screenshare.svg">
       </button>
       

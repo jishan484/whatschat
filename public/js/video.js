@@ -1,7 +1,13 @@
-var globalConfig = {
-    audio:true,
+
+var config = {
+    audio: true,
     video: false
 };
+var globalConfig = {
+    audio: true,
+    video: false
+};
+
 
 // global
 var calling_to = "";
@@ -10,13 +16,13 @@ var gpeer = null, endcall = null;  //gpeer is the global peer variable
 var view_box_data = "";
 var clone_gpeer = null;
 var timmer;   //this is used to cut the call after 60sec if not received
-var action = "default";
+
 
 
 const audio = new Audio(init_saved_data_audio());
 audio.loop = true;
-
-async function call(a, uid , action)   //this function only has uid of other person
+// var 
+async function call(a, uid)   //this function only has uid of other person
 {
     if (is_line_busy) {
         show_error("a call is on going please end it !");
@@ -33,14 +39,7 @@ async function call(a, uid , action)   //this function only has uid of other per
     socket.emit("call_req", uid);
     is_line_busy = true;
     timmer = setTimeout(() => { finish() }, 30000);  //30 sec ring time
-
-    if(action != null){
-        action = "video";
-    }
 }
-
-
-
 socket.on("call_req", (uids) => {  //this uid has two value (from_uid , to_uid)
     if (is_line_busy) {
         socket.emit("end_call_line_busy", (uids.fromuid));
@@ -53,7 +52,6 @@ socket.on("call_req", (uids) => {  //this uid has two value (from_uid , to_uid)
         audio.play();
     }
 })
-
 socket.on("call_end", (uids) => {  //this uids has no value 
     audio.currentTime = 0;
     audio.pause();
@@ -66,12 +64,10 @@ socket.on("call_end", (uids) => {  //this uids has no value
     is_line_busy = false;
     if (endcall != null) endcall();
 })
-
 socket.on("call_accept", (data) => {  //this is bool value
     if (data) { peer(true); is_line_busy = true; clearTimeout(timmer); }
     else { endcall(); is_line_busy = false }
 })
-
 socket.on("signal", (data) => {    //data is the sdp of others
     gpeer.signal(JSON.parse(data));
 })
@@ -88,7 +84,6 @@ function send_to(data) {
         socket.emit("signal", { signal: data, touid: calling_to });
     }
 }
-
 function finish() {
     socket.emit("call_end", calling_to);
     clearTimeout(timmer);
@@ -108,7 +103,6 @@ async function accept() {
     await peer(false);
     socket.emit("call_accept", calling_to);
 }
-
 function cancel(uid) {
     clearTimeout(timmer);
     audio.currentTime = 0;
@@ -119,10 +113,11 @@ function cancel(uid) {
 }
 
 async function peer(type) {
-    var peer = new SimplePeer({ initiator: type, trickle: false });
+    var r = await set_config();
+    var streams = await video();
+    var peer = new SimplePeer({ initiator: type, trickle: false, stream: streams });
     gpeer = peer;
     peer.on("connect", (data) => {
-        setConfig(action);
         console.log("connected")
     })
     peer.on("signal", (data) => send_to(JSON.stringify(data)));
@@ -151,95 +146,8 @@ async function peer(type) {
     clone_gpeer = peer;
 }
 
-function getStream(type){
-    if(type == "screen"){
-        getScreen().then((stream) => {
-            gpeer.addStream(stream);
-        })
-    }
-    else{
-        getVideo().then((stream) => {
-            gpeer.addStream(stream);
-        })
-    }
-}
 
 
-function handleButtons(type){
-    if(type == "default"){
-        call_audio.className = "";
-    }
-    else if(type == "audio"){
-        (call_audio.className == "off") ? call_audio.className="" : call_audio.className="off"
-    }
-    else if (type == "video") {
-        (call_video.className == "off") ? call_video.className = "" : call_video.className = "off"
-        call_screen.className = "off"
-    }
-    else{
-        (call_screen.className == "off") ? call_screen.className = "" : call_screen.className = "off"
-        call_video.className = "off"
-    }
-}
-
-function setConfig(type) {
-    if (type == "default") {
-        globalConfig.audio = true;
-    }
-    else if(type == "audio"){
-        globalConfig.audio = !globalConfig.audio;
-    }else if(type == "video"){
-        if (globalConfig.video == false || globalConfig.video == true){
-            globalConfig.video = !globalConfig.video;
-        }
-        else{
-            globalConfig.video = true;
-        }
-    }
-    else{
-        if (globalConfig.video == false || globalConfig.video == true){
-            globalConfig.video = {
-                cursor: "always"
-            };
-        }
-        else{
-            globalConfig.video = false;
-        }
-    }
-    handleButtons(type);
-    getStream(type);
-    console.log(globalConfig);
-}
-
-function getVideo() {
-    return new Promise(resolve => {
-        navigator.mediaDevices.getUserMedia(globalConfig)
-            .then(function (stream) {
-                var local_video = document.getElementsByClassName('local_video')[0];
-                if ("srcObject" in local_video) local_video.srcObject = stream;
-                else local_video.src = window.URL.createObjectURL(stream);
-                local_video.onloadedmetadata = function (e) {
-                    local_video.play();
-                };
-                resolve(stream);
-            })
-            .catch(function (err) { console.log(err.name + ": " + err.message); });
-    });
-}
-
-function getScreen(){
-    return new Promise(resolve => {
-        navigator.mediaDevices.getDisplayMedia(globalConfig).then((stream)=>{
-            var local_video = document.getElementsByClassName('local_video')[0];
-            if ("srcObject" in local_video) local_video.srcObject = stream;
-            else local_video.src = window.URL.createObjectURL(stream);
-            local_video.onloadedmetadata = function (e) {
-                local_video.play();
-            };
-            resolve(stream);
-        })
-    });
-}
 
 
 function init_calling_box(uid) {
@@ -294,3 +202,174 @@ function complete_view_box() {
     view_box_ready = true;
 }
 
+
+function video() {
+    return new Promise(resolve => {
+        navigator.mediaDevices.getUserMedia(config)
+            .then(function (stream) {
+                var local_video = document.getElementsByClassName('local_video')[0];
+                if ("srcObject" in local_video) local_video.srcObject = stream;
+                else local_video.src = window.URL.createObjectURL(stream);
+                local_video.onloadedmetadata = function (e) {
+                    local_video.play();
+                };
+                resolve(stream);
+            })
+            .catch(function (err) { console.log(err.name + ": " + err.message); });
+    });
+}
+
+
+// checking device has video audio inputs or not
+function set_config() {
+    return new Promise(resolve => {
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            navigator.mediaDevices.enumerateDevices().then((data) => {
+                data.forEach(device => {
+                    if (device.kind == 'audioinput') config.audio = { sampleSize: 8, echoCancellation: true };
+                    if (device.kind == 'videoinput') config.video = true;
+                });
+                console.log(config);
+                resolve(config);
+            }).catch((err) => { console.log("try-1 :", err) });
+        }
+        else {
+            if (!navigator.enumerateDevices && window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
+                navigator.enumerateDevices = window.MediaStreamTrack.getSources.bind(window.MediaStreamTrack);
+                navigator.enumerateDevices().then((data) => {
+                    data.forEach(device => {
+                        if (device.kind == 'audioinput') config.audio = true;
+                        if (device.kind == 'videoinput') config.video = true;
+                    });
+                    console.log(config);
+                    resolve(config);
+                }).catch((err) => { console.log("try-2 :", err) });
+            }
+        }
+    });
+}
+
+
+function show_error(data) {
+    $(".middle").html("<center>" + data + "<center>").show(200).delay(3000).fadeOut();
+}
+
+function init_saved_data_audio() {
+    if (window.localStorage) {
+        if (localStorage.getItem("audioData") == null) {
+            $.get("data/audio.txt", null, (res) => {
+                localStorage.setItem("audioData", res);
+            });
+            return "ring.mp3";
+        }
+        else {
+            return localStorage.getItem('audioData');
+        }
+    }
+    else {
+        $.get("data/audio.txt", null, (res) => { return res; });
+    }
+}
+
+async function screen_share() {
+
+    var displayMediaOptions = {
+        video: {
+            cursor: "always"
+        },
+        audio: true
+    };
+
+    var stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    gpeer.addStream(stream);
+}
+
+function getStream(type) {
+    if (type == "screen") {
+        getScreen().then((stream) => {
+            gpeer.addStream(stream);
+        })
+    }
+    else {
+        getVideo().then((stream) => {
+            gpeer.addStream(stream);
+        })
+    }
+}
+
+
+function handleButtons(type) {
+    if (type == "default") {
+        call_audio.className = "";
+    }
+    else if (type == "audio") {
+        (call_audio.className == "off") ? call_audio.className = "" : call_audio.className = "off"
+    }
+    else if (type == "video") {
+        (call_video.className == "off") ? call_video.className = "" : call_video.className = "off"
+        call_screen.className = "off"
+    }
+    else {
+        (call_screen.className == "off") ? call_screen.className = "" : call_screen.className = "off"
+        call_video.className = "off"
+    }
+}
+
+function setConfig(type) {
+    if (type == "default") {
+        globalConfig.audio = true;
+    }
+    else if (type == "audio") {
+        globalConfig.audio = !globalConfig.audio;
+    } else if (type == "video") {
+        if (globalConfig.video == false || globalConfig.video == true) {
+            globalConfig.video = !globalConfig.video;
+        }
+        else {
+            globalConfig.video = true;
+        }
+    }
+    else {
+        if (globalConfig.video == false || globalConfig.video == true) {
+            globalConfig.video = {
+                cursor: "always"
+            };
+        }
+        else {
+            globalConfig.video = false;
+        }
+    }
+    handleButtons(type);
+    getStream(type);
+    console.log(globalConfig);
+}
+
+function getVideo() {
+    return new Promise(resolve => {
+        navigator.mediaDevices.getUserMedia(globalConfig)
+            .then(function (stream) {
+                var local_video = document.getElementsByClassName('local_video')[0];
+                if ("srcObject" in local_video) local_video.srcObject = stream;
+                else local_video.src = window.URL.createObjectURL(stream);
+                local_video.onloadedmetadata = function (e) {
+                    local_video.play();
+                };
+                resolve(stream);
+            })
+            .catch(function (err) { console.log(err.name + ": " + err.message); });
+    });
+}
+
+function getScreen() {
+    return new Promise(resolve => {
+        navigator.mediaDevices.getDisplayMedia(globalConfig).then((stream) => {
+            var local_video = document.getElementsByClassName('local_video')[0];
+            if ("srcObject" in local_video) local_video.srcObject = stream;
+            else local_video.src = window.URL.createObjectURL(stream);
+            local_video.onloadedmetadata = function (e) {
+                local_video.play();
+            };
+            resolve(stream);
+        })
+    });
+}

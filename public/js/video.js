@@ -133,12 +133,14 @@ async function peer(type) {
     peerData.on('close', () => {
         finish();
     })
-    peerData.on('error', err => { console.log('error', err); finish(); })
+    peerData.on('error', err => { console.log(err); finish(); })
     endcall = function () {
         peerData.destroy();
+        if(gstream != null){
         gstream.getTracks().forEach(device => {
             device.stop();
         });
+        }
         complete_view_box();
         hide_view_box(false);
         endcall = null;

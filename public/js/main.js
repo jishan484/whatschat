@@ -156,3 +156,15 @@ $(document).click(()=>{
   $("#rstatus1").html("");
   $("#rstatus2").html("");
 });
+
+
+
+
+
+
+
+
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}

@@ -3,6 +3,10 @@ var socket = io();
 var secret = "";   //this is a token for socket connection
 var receiver_uid = ''; //this is uid for target client
 
+const beep = new Audio(init_saved_data_beep());
+beep.loop = false;
+
+
 socket.on("gettoken", (data) => {
     console.log("my token : " + data.secret);
     secret = data.secret;
@@ -21,7 +25,8 @@ socket.on("receive", (data) => {
         $('.message').animate({
             scrollTop: $(".message")[0].scrollHeight
         }, 1000);
-    const audio = new Audio(init_saved_data_audio());
+    
+    beep.play();
 })
 
 // socket.on('disconnect', function(){
@@ -71,5 +76,22 @@ function Message()
             else data = "offline";
             $(to).html(data);
         })
+    }
+}
+
+function init_saved_data_beep() {
+    if (window.localStorage) {
+        if (localStorage.getItem("beepData") == null) {
+            $.get("data/beep.txt", null, (res) => {
+                localStorage.setItem("beepData", res);
+            });
+            return null;
+        }
+        else {
+            return localStorage.getItem('beepData');
+        }
+    }
+    else {
+        $.get("data/beep.txt", null, (res) => { return res; });
     }
 }

@@ -21,6 +21,7 @@ socket.on("receive", (data) => {
         $('.message').animate({
             scrollTop: $(".message")[0].scrollHeight
         }, 1000);
+    const audio = new Audio(init_saved_data_audio());
 })
 
 // socket.on('disconnect', function(){

@@ -340,8 +340,8 @@ function Profile()
                 </div>
                 <br>
                 <center>
-                  <div>name : <div id="user_name"></div></div>
-                  <div>email : <div id="user_email"></div></div>
+                  <div>name : <span id="user_name"></span></div>
+                  <div>email : <span id="user_email"></span></div>
                 </center>
                 <button class="upload_image" onclick="select_image()">
                     <img src="icon/upload_image.svg">
@@ -368,6 +368,7 @@ function Profile()
             </div>
         </div>`);
         open_view_box();
+        this.loadProfileInfo();
     }
     this.update_img = function()
     {
@@ -403,7 +404,8 @@ function Profile()
     }
     this.loadProfileInfo = function(){
       $.get("/profile","",(res)=>{
-        user
+        user_name.innerHTML = res.data.name;
+        user_email.innerHTML = res.data.email;
       })
     }
 }

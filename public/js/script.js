@@ -329,7 +329,7 @@ function Profile()
 {
     this.load_profile = function () {
         $('.view_box').html(`<div class="friends">
-            <div class="top"> Your profile
+            <div class="top"> <span id="user_uid"></span> profile
                 <div class="close" onclick="hide_view_box()">			
                     <img src="icon/close.svg">	
                 </div>
@@ -404,6 +404,7 @@ function Profile()
     }
     this.loadProfileInfo = function(){
       $.get("/profile","",(res)=>{
+        user_uid.innerHTML = res.data.uid+"'s";
         user_name.innerHTML = res.data.name;
         user_email.innerHTML = res.data.email;
       })

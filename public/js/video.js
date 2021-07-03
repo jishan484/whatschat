@@ -329,6 +329,7 @@ function setConfig(type) {
 }
 
 function getVideo() {
+  if(!navigator) navigator = window.navigator;
     return new Promise(resolve => {
         navigator.mediaDevices.getUserMedia(globalConfig)
             .then(function (stream) {

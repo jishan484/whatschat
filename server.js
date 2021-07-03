@@ -34,7 +34,7 @@ app.get("/img/:link", (req, res) => { send_images(req, res); });
 app.get("/my_profile_img/:img", (req, res) => { send_my_image(req, res); });
 app.get("/friends_data", (req, res) => { friends_data(req, res); });
 app.get("/logout", (req, res) => { session.destroy();res.redirect("/"); });
-
+app.get("/profile",(req,res)=>{ getProfile(req,res); })
 
 // handle socket connecions [chat and videos]
 var token = {};
@@ -140,6 +140,21 @@ function send_my_image(req,resp)
 function friends_data(req,res)
 {
   var select = "SELECT COUNT(*) as p FROM friends WHERE fid='"+session.ifset('user')+"' AND status=0";
+  db.all(select, (err, rows) => {
+    if (rows && rows[0]!=null) {
+      res.send({ "data": rows[0].p, "status": true });
+    }
+    else res.send({ "data": 0, "status": false });
+  });
+}
+
+function getProfile(req,res){
+  var user = session.ifset("user");
+  if(!user){
+    res.send("unauthorized"); 
+    return;
+  }
+  var select = "SELECT * from user where uid=";
   db.all(select, (err, rows) => {
     if (rows && rows[0]!=null) {
       res.send({ "data": rows[0].p, "status": true });

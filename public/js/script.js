@@ -338,6 +338,11 @@ function Profile()
                 <div class="image">
                     <img class="profile_image" id="edit_profile_img" src="my_profile_img/profile.png">
                 </div>
+                <br>
+                <center>
+                  <div>name : <div id="user_name"></div></div>
+                  <div>email : <div id="user_email"></div></div>
+                </center>
                 <button class="upload_image" onclick="select_image()">
                     <img src="icon/upload_image.svg">
                     <text>upload new image</text>
@@ -395,6 +400,11 @@ function Profile()
                 }
             });
         }
+    }
+    this.loadProfileInfo = function(){
+      $.get("/profile","",(res)=>{
+        user
+      })
     }
 }
 

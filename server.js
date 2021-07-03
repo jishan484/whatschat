@@ -154,10 +154,10 @@ function getProfile(req,res){
     res.send("unauthorized"); 
     return;
   }
-  var select = "SELECT * from user where uid=";
+  var select = "SELECT name,email,uid from users where uid='"+user+"'";
   db.all(select, (err, rows) => {
     if (rows && rows[0]!=null) {
-      res.send({ "data": rows[0].p, "status": true });
+      res.send({ "data": rows[0], "status": true });
     }
     else res.send({ "data": 0, "status": false });
   });

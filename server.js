@@ -5,6 +5,7 @@ var http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const fs = require("fs");
 const session = require("sessid");  //for managing session in express and socketio in 1 library
+const port = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(session.start);
@@ -117,8 +118,8 @@ function init_database() {
   });
 }
 
-http.listen(3000, () => {
-  console.log("server running on port 3000");
+http.listen(port, () => {
+  console.log("server running on port :",port);
 })
 
 // extra funtions

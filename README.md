@@ -9,3 +9,8 @@
 7. save data to local storage [done]
 8. add cancle request button
    <!-- end date 28/07/2020 -->
+   
+ `
+ please change db file location in server.js line 13
+const dbFile = "sql.db"; to const dbFile = ".db/sql.db";
+`
